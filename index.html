@@ -7,155 +7,273 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
     
-    * { box-sizing: border-box; }
+    :root {
+      --bg-primary: linear-gradient(135deg, #1a0000 0%, #2d0a0a 50%, #4a0000 100%);
+      --card-bg: rgba(20,0,0,0.95);
+      --border-color: #660000;
+      --text-primary: #f0e6d2;
+      --btn-danger: linear-gradient(45deg, #b71c1c, #d32f2f);
+      --btn-dark: linear-gradient(45deg, #333, #555);
+      --shadow-glow: 0 8px 25px rgba(255,68,68,0.4);
+    }
+    
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+    }
+    
     body { 
       font-family: 'Crimson Text', serif; 
       max-width: 600px; 
-      margin: 50px auto; 
+      margin: 0 auto; 
       padding: 20px; 
-      background: linear-gradient(135deg, #1a0000 0%, #2d0a0a 50%, #4a0000 100%);
-      color: #f0e6d2;
+      background: var(--bg-primary);
+      color: var(--text-primary);
       min-height: 100vh;
+      line-height: 1.6;
     }
+    
     h1 {
       text-align: center;
       color: #ff4444;
       text-shadow: 0 0 20px #8b0000, 2px 2px 4px rgba(0,0,0,0.8);
-      font-size: 2.2em;
+      font-size: clamp(1.8em, 5vw, 2.2em);
       font-weight: 600;
       margin-bottom: 30px;
       letter-spacing: 2px;
     }
+    
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      align-items: center;
+    }
+    
     input, select { 
-      padding: 15px; 
-      font-size: 18px; 
+      padding: 15px 20px; 
+      font-size: clamp(16px, 4vw, 18px); 
       width: 100%; 
-      max-width: 300px;
-      margin: 12px 0;
-      border: 2px solid #660000;
+      max-width: 320px;
+      margin: 8px 0;
+      border: 2px solid var(--border-color);
       border-radius: 8px;
       background: rgba(255,255,255,0.1);
-      color: #f0e6d2;
+      color: var(--text-primary);
       font-family: inherit;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
     }
+    
+    input:focus, select:focus {
+      outline: none;
+      border-color: #ff4444;
+      box-shadow: 0 0 15px rgba(255,68,68,0.3);
+      transform: scale(1.02);
+    }
+    
     input::placeholder {
       color: rgba(240,230,210,0.7);
     }
+    
     button { 
       padding: 15px 28px; 
-      font-size: 18px; 
+      font-size: clamp(16px, 4vw, 18px); 
       cursor: pointer; 
       border: none;
       border-radius: 8px;
       font-weight: 600;
       font-family: inherit;
-      transition: all 0.3s;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       margin: 8px;
       text-transform: uppercase;
       letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
     }
+    
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+    
+    button:hover::before {
+      left: 100%;
+    }
+    
     button:hover, button:active {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(255,68,68,0.4);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: var(--shadow-glow);
     }
+    
     #initBtn { 
-      background: linear-gradient(45deg, #b71c1c, #d32f2f);
+      background: var(--btn-danger);
       color: #fff;
-      box-shadow: 0 4px 15px rgba(183,28,28,0.5);
-      display: block;
-      margin: 0 auto 20px;
+      box-shadow: 0 6px 20px rgba(183,28,28,0.5);
+      font-size: 1.1em;
     }
+    
     #verifyBtn { 
-      background: linear-gradient(45deg, #333, #555);
+      background: var(--btn-dark);
       color: #fff;
-      box-shadow: 0 4px 15px rgba(51,51,51,0.5);
+      box-shadow: 0 6px 20px rgba(51,51,51,0.5);
     }
+    
     pre { 
-      background: rgba(20,0,0,0.95); 
+      background: var(--card-bg); 
       padding: 35px; 
-      border-radius: 12px; 
+      border-radius: 16px; 
       margin-top: 25px; 
-      box-shadow: 0 8px 30px rgba(0,0,0,0.8);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.8);
       font-size: 16px;
-      min-height: 140px;
+      min-height: 160px;
       white-space: pre-wrap;
       line-height: 1.7;
-      border: 2px solid #660000;
-      color: #f0e6d2;
+      border: 2px solid var(--border-color);
+      color: var(--text-primary);
+      backdrop-filter: blur(15px);
+      animation: fadeInUp 0.6s ease-out;
     }
-    .section { margin-bottom: 45px; text-align: center; }
-    .form-row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; align-items: center; }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .form-row { 
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 15px; 
+      justify-content: center; 
+      align-items: center; 
+      width: 100%;
+    }
+    
     .hidden { display: none !important; }
-    .joueur-input { margin: 10px 0; width: 100%; max-width: 300px; }
-    .form-buttons { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+    .joueur-input { margin: 12px 0; }
+    .form-buttons { 
+      display: flex; 
+      justify-content: center; 
+      gap: 20px; 
+      flex-wrap: wrap; 
+      margin-top: 20px;
+    }
+    
+    /* Mobile first */
+    @media (max-width: 480px) {
+      body { padding: 15px; }
+      .form-row { flex-direction: column; gap: 12px; }
+      button { width: 100%; max-width: 280px; }
+    }
   </style>
 </head>
 <body>
-  <h1>🔪 Jeu des Assassins</h1>
-  
-  <div class="section">
-    <button id="initBtn">🔍 Nouvelle partie</button>
-    <div id="initForm" class="hidden">
-      <select id="nbJoueurs">
-        <option value="">Combien de joueurs ?</option>
-        <option value="3">3 joueurs</option>
-        <option value="4">4 joueurs</option>
-        <option value="5">5 joueurs</option>
-        <option value="6">6 joueurs</option>
-        <option value="7">7 joueurs</option>
-        <option value="8">8 joueurs</option>
-        <option value="9">9 joueurs</option>
-        <option value="10">10 joueurs</option>
-        <option value="11">11 joueurs</option>
-        <option value="12">12 joueurs</option>
-        <option value="13">13 joueurs</option>
-        <option value="14">14 joueurs</option>
-        <option value="15">15 joueurs</option>
-        <option value="16">16 joueurs</option>
-        <option value="17">17 joueurs</option>
-        <option value="18">18 joueurs</option>
-        <option value="19">19 joueurs</option>
-        <option value="20">20 joueurs</option>
-      </select>
-      <div id="joueursInputs"></div>
-      <div class="form-buttons">
-        <button id="confirmBtn">⚡ Commencer le massacre</button>
-        <button id="cancelBtn">❌ Annuler</button>
+  <div class="container">
+    <h1>🔪 Jeu des Assassins</h1>
+    
+    <div class="section">
+      <button id="initBtn">🔍 Nouvelle partie</button>
+      <div id="initForm" class="hidden">
+        <select id="nbJoueurs">
+          <option value="">Combien de joueurs ?</option>
+          <option value="3">3 joueurs</option><option value="4">4 joueurs</option>
+          <option value="5">5 joueurs</option><option value="6">6 joueurs</option>
+          <option value="7">7 joueurs</option><option value="8">8 joueurs</option>
+          <option value="9">9 joueurs</option><option value="10">10 joueurs</option>
+          <option value="11">11 joueurs</option><option value="12">12 joueurs</option>
+          <option value="13">13 joueurs</option><option value="14">14 joueurs</option>
+          <option value="15">15 joueurs</option><option value="16">16 joueurs</option>
+          <option value="17">17 joueurs</option><option value="18">18 joueurs</option>
+          <option value="19">19 joueurs</option><option value="20">20 joueurs</option>
+        </select>
+        <div id="joueursInputs"></div>
+        <div class="form-buttons">
+          <button id="confirmBtn">⚡ Commencer le massacre</button>
+          <button id="cancelBtn">❌ Annuler</button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="section">
-    <div class="form-row">
-      <input type="text" id="nomInput" placeholder="Votre nom...">
-      <button id="verifyBtn" class="hidden">🔍 Ma cible</button>
+    <div class="section">
+      <div class="form-row">
+        <input type="text" id="nomInput" placeholder="Votre nom...">
+        <button id="verifyBtn" class="hidden">🔍 Ma cible</button>
+      </div>
     </div>
+    
+    <pre id="resultat">🔪 Cliquez sur "Nouvelle partie" pour commencer le massacre...</pre>
   </div>
-  
-  <pre id="resultat">🔪 Cliquez sur "Nouvelle partie" pour commencer le massacre...</pre>
 
   <script>
-    let joueursMeles = [];
-    let jeuInitialise = false;
+    let joueursMeles = [], jeuInitialise = false;
 
-    document.addEventListener('DOMContentLoaded', function() {
-      document.getElementById('initBtn').addEventListener('click', showInitForm);
-      document.getElementById('confirmBtn').addEventListener('click', commencerPartie);
-      document.getElementById('cancelBtn').addEventListener('click', hideInitForm);
-      document.getElementById('verifyBtn').addEventListener('click', verifier);
-      document.getElementById('nomInput').addEventListener('input', function() {
-        this.value = this.value.trim();
-      });
+    // Cache et performance
+    const cache = {
+      initBtn: null,
+      confirmBtn: null,
+      cancelBtn: null,
+      verifyBtn: null,
+      nomInput: null,
+      nbJoueurs: null,
+      initForm: null,
+      joueursInputs: null,
+      resultat: null
+    };
+
+    function init() {
+      // Cache DOM une seule fois
+      cache.initBtn = document.getElementById('initBtn');
+      cache.confirmBtn = document.getElementById('confirmBtn');
+      cache.cancelBtn = document.getElementById('cancelBtn');
+      cache.verifyBtn = document.getElementById('verifyBtn');
+      cache.nomInput = document.getElementById('nomInput');
+      cache.nbJoueurs = document.getElementById('nbJoueurs');
+      cache.initForm = document.getElementById('initForm');
+      cache.joueursInputs = document.getElementById('joueursInputs');
+      cache.resultat = document.getElementById('resultat');
+
+      // Debounce pour inputs
+      const debouncedTrim = debounce(trimInput, 300);
       
-      document.getElementById('nbJoueurs').addEventListener('change', generatePlayerInputs);
-    });
+      cache.initBtn.addEventListener('click', showInitForm);
+      cache.confirmBtn.addEventListener('click', commencerPartie);
+      cache.cancelBtn.addEventListener('click', hideInitForm);
+      cache.verifyBtn.addEventListener('click', verifier);
+      cache.nomInput.addEventListener('input', debouncedTrim);
+      cache.nbJoueurs.addEventListener('change', generatePlayerInputs);
+    }
+
+    // Debounce utility
+    function debounce(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    }
+
+    function trimInput(e) {
+      e.target.value = e.target.value.trim();
+    }
 
     function shuffle(array) {
-      for (let i = array.length - 1; i > 0; i--) {
+      const shuffled = [...array];
+      for (let i = shuffled.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
       }
-      return array;
+      return shuffled;
     }
 
     function normaliserNom(nom) {
@@ -163,42 +281,39 @@
     }
 
     function showInitForm() {
-      document.getElementById('initForm').classList.remove('hidden');
-      document.getElementById('nbJoueurs').focus();
+      cache.initForm.classList.remove('hidden');
+      cache.nbJoueurs.focus();
     }
 
     function hideInitForm() {
-      document.getElementById('initForm').classList.add('hidden');
-      document.getElementById('joueursInputs').innerHTML = '';
+      cache.initForm.classList.add('hidden');
+      cache.joueursInputs.innerHTML = '';
     }
 
     function generatePlayerInputs() {
-      const n = parseInt(document.getElementById('nbJoueurs').value);
-      const container = document.getElementById('joueursInputs');
-      container.innerHTML = '';
+      const n = parseInt(cache.nbJoueurs.value);
+      cache.joueursInputs.innerHTML = '';
       
-      if (n && n >= 3 && n <= 20) {
+      if (n >= 3 && n <= 20) {
         for (let i = 1; i <= n; i++) {
           const div = document.createElement('div');
           div.className = 'joueur-input';
           div.innerHTML = `<input type="text" placeholder="Joueur ${i}">`;
-          container.appendChild(div);
+          cache.joueursInputs.appendChild(div);
           
-          div.querySelector('input').addEventListener('input', function() {
-            this.value = this.value.trim();
-          });
+          div.querySelector('input').addEventListener('input', debounce(trimInput, 300));
         }
       }
     }
 
     function commencerPartie() {
-      const n = parseInt(document.getElementById('nbJoueurs').value);
+      const n = parseInt(cache.nbJoueurs.value);
       if (!n || n < 3 || n > 20) {
         alert("❌ Choisissez entre 3 et 20 joueurs");
         return;
       }
 
-      const inputs = document.querySelectorAll('#joueursInputs input');
+      const inputs = cache.joueursInputs.querySelectorAll('input');
       const joueurs = [];
       
       for (let i = 0; i < n; i++) {
@@ -215,14 +330,14 @@
         });
       }
 
-      joueursMeles = shuffle([...joueurs]);
+      joueursMeles = shuffle(joueurs);
       jeuInitialise = true;
       
       hideInitForm();
-      document.getElementById('verifyBtn').classList.remove('hidden');
-      document.getElementById('nomInput').focus();
+      cache.verifyBtn.classList.remove('hidden');
+      cache.nomInput.focus();
       
-      document.getElementById('resultat').textContent = 
+      cache.resultat.textContent = 
         `🔪 MASSACRE COMMENCÉ - ${n} JOUEURS\n` +
         `═══════════════════════\n\n` +
         `📋 Liste des joueurs :\n${joueurs.map(j => `   • ${j.nom}`).join('\n')}\n\n` +
@@ -231,12 +346,12 @@
     }
 
     function verifier() {
-      if (!jeuInitialise || joueursMeles.length === 0) {
+      if (!jeuInitialise || !joueursMeles.length) {
         alert("👆 Commencez d'abord la partie !");
         return;
       }
 
-      const nomEntree = document.getElementById('nomInput').value.trim();
+      const nomEntree = cache.nomInput.value.trim();
       if (!nomEntree) {
         alert("❌ Entrez votre nom");
         return;
@@ -254,7 +369,6 @@
       const cibleIndex = (index + 1) % joueursMeles.length;
       const cible = joueursMeles[cibleIndex].nom;
 
-      // ✅ DÉTECTIVE 🕵️‍♂️ + COUTEAU 🔪
       alert(
         `🕵️‍♂️ ${joueur.nom}\n` +
         `═══════════════\n\n` +
@@ -263,8 +377,15 @@
         `❌ Ne montre à PERSONNE !`
       );
       
-      document.getElementById('nomInput').value = '';
-      document.getElementById('nomInput').focus();
+      cache.nomInput.value = '';
+      cache.nomInput.focus();
+    }
+
+    // Init au chargement
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
     }
   </script>
 </body>
